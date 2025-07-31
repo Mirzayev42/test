@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transfer Money</title>
+</head>
+<body>
+<h1>Transfer Money</h1>
+
+<form th:action="@{/accounts/transfer}" method="post" th:object="${transferRequest}">
+    <label for="fromAccountId">From Account ID:</label>
+    <input type="number" id="fromAccountId" th:field="*{fromAccountId}" min="1" required />
+
+    <br/>
+
+    <label for="toAccountId">To Account ID:</label>
+    <input type="number" id="toAccountId" th:field="*{toAccountId}" min="1" required />
+
+    <br/>
+
+    <label for="amountInAzn">Amount (AZN):</label>
+    <input type="number" id="amountInAzn" th:field="*{amountInAzn}" min="0.01" step="0.01" required />
+
+    <br/>
+
+    <button type="submit">Transfer</button>
+</form>
+
+<!-- Mesajlar üçün -->
+<div th:if="${message}" style="color: green; margin-top: 20px;">
+    <p th:text="${message}"></p>
+</div>
+
+<div th:if="${error}" style="color: red; margin-top: 20px;">
+    <p th:text="${error}"></p>
+</div>
+
+<!-- Transferdən sonra hesabların məlumatları -->
+<div th:if="${fromAccount}" style="margin-top: 30px;">
+    <h3>From Account After Transfer</h3>
+    <p>ID: <span th:text="${fromAccount.id}"></span></p>
+    <p>Balance: <span th:text="${#numbers.formatDecimal(fromAccount.balanceInCents / 100.0, 1, '2')}"></span> AZN</p>
+</div>
+
+<div th:if="${toAccount}" style="margin-top: 30px;">
+    <h3>To Account After Transfer</h3>
+    <p>ID: <span th:text="${toAccount.id}"></span></p>
+    <p>Balance: <span th:text="${#numbers.formatDecimal(toAccount.balanceInCents / 100.0, 1, '2')}"></span> AZN</p>
+</div>
+
+</body>
+</html>
+
